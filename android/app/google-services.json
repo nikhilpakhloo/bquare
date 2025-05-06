@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "254068724720",
+    "project_id": "medic-d0629",
+    "storage_bucket": "medic-d0629.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:254068724720:android:cf7cb97ef97e1145a60335",
+        "android_client_info": {
+          "package_name": "com.ankit.formedics.medicalapp"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBGcjO6JqU2GRLqVKwcOJdBJ1-BPECMl74"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
