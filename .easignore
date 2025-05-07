@@ -1,0 +1,33 @@
+# .easignore
+
+# node dependencies
+node_modules/
+
+# build output
+.expo/
+dist/
+build/
+.next/
+android/app/build/
+ios/build/
+
+# macOS/Linux system files
+.DS_Store
+
+# logs & test output
+*.log
+coverage/
+__tests__/
+
+# IDE/editor files
+.vscode/
+.idea/
+
+# git
+.git/
+
+# cache
+*.apk
+*.aab
+*.keystore
+npm-debug.log

@@ -9,15 +9,14 @@ import Toast from 'react-native-toast-message';
 
 import {
   Image,
-  SafeAreaView,
   ScrollView,
-  StatusBar,
   StyleSheet,
   Text,
   TextInput,
   TouchableOpacity,
-  View,
+  View
 } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 const PharmacyFinder = () => {
   const [fileInfo, setFileInfo] = useState<{ name: string } | null>(null);
@@ -91,7 +90,6 @@ const PharmacyFinder = () => {
 
   return (
     <SafeAreaView style={styles.container}>
-      <StatusBar backgroundColor="#FFFFFF" barStyle="dark-content" />
       <ScrollView contentContainerStyle={styles.scrollContainer} showsVerticalScrollIndicator={false}>
         {/* Header */}
         <View style={styles.header}>
@@ -191,7 +189,7 @@ const PharmacyFinder = () => {
 
 const styles = StyleSheet.create({
   container: { flex: 1, backgroundColor: '#FFFFFF' },
-  scrollContainer: { paddingBottom: 40 },
+  scrollContainer: { paddingBottom: 40},
   header: { flexDirection: 'row', alignItems: 'center', padding: 20 },
   backButton: { padding: 5 },
   locationContainer: { flexDirection: 'row', alignItems: 'center', marginLeft: 15 },

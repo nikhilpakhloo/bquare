@@ -65,6 +65,7 @@ export default function Login() {
   if (showLoader) return <Loader />;
 
   return (
+    
     <View style={styles.container}>
       <View style={styles.headerContainer}>
         <Text style={styles.title}>LOGIN</Text>

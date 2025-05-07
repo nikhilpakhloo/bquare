@@ -1,21 +1,28 @@
 import DrawerButton from '@/components/DrawerButton';
 import { useUploadStore } from '@/store/useCloudStore';
-import React, { useEffect, useRef } from 'react';
-import { Animated, Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
-// import Pdf from 'react-native-pdf';
+import React, { useLayoutEffect, useRef } from 'react';
+import {
+  Animated,
+  Dimensions,
+  Image,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+} from 'react-native';
+import Pdf from 'react-native-pdf';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
-
+const screenWidth = Dimensions.get('window').width;
 
 export default function Calendar() {
   const uploadedUrl = useUploadStore((state) => state.uploadedUrl);
-  console.log(uploadedUrl);
 
-  const isPDF = (url) => {
+  const isPDF = (url: string) => {
     return url && url.toLowerCase().includes('.pdf');
   };
 
-  const isImage = (url) => {
+  const isImage = (url: string) => {
     return (
       url &&
       (url.endsWith('.jpeg') ||
@@ -25,45 +32,68 @@ export default function Calendar() {
     );
   };
 
-  // Reference to the animated value
-  const translateX = useRef(new Animated.Value(500)).current; // Start from the right side of the screen
+  const translateX = useRef(new Animated.Value(screenWidth)).current;
+  const opacity = useRef(new Animated.Value(0)).current;
 
-  useEffect(() => {
-    // Animate the component from the right to its normal position
-    Animated.timing(translateX, {
-      toValue: 0, // Move to the left (normal position)
-      duration: 800, // Duration of the animation
-      useNativeDriver: true,
-    }).start();
-  }, [translateX]);
+  useLayoutEffect(() => {
+    Animated.parallel([
+      Animated.timing(translateX, {
+        toValue: 0,
+        duration: 800,
+        useNativeDriver: true,
+      }),
+      Animated.timing(opacity, {
+        toValue: 1,
+        duration: 800,
+        useNativeDriver: true,
+      }),
+    ]).start();
+  }, []);
 
   return (
     <SafeAreaView style={styles.container}>
-         <View style={styles.header}>
-                <View style={styles.hamburger}>
-                  <DrawerButton />
-                  <Image source={require("../../../../assets/images/Rectangle.png")} />
-                </View>
-                <TouchableOpacity style={styles.micButton}>
-                  <View style={styles.micCircle}>
-                    <Image source={require("../../../../assets/images/mic_logo.png")} style={styles.micIcon} />
-                  </View>
-                </TouchableOpacity>
-              </View>
+      <View style={styles.header}>
+        <View style={styles.hamburger}>
+          <DrawerButton />
+          <Image source={require('../../../../assets/images/Rectangle.png')} />
+        </View>
+        <TouchableOpacity style={styles.micButton}>
+          <View style={styles.micCircle}>
+            <Image
+              source={require('../../../../assets/images/mic_logo.png')}
+              style={styles.micIcon}
+            />
+          </View>
+        </TouchableOpacity>
+      </View>
+
       <View style={styles.content}>
         {uploadedUrl ? (
           <>
             {isPDF(uploadedUrl) ? (
               <Animated.View
-                style={[styles.pdfContainer, { transform: [{ translateX }] }]}>
-                    {/* <Pdf
-                      source={{ uri: uploadedUrl, cache: true }}
-                      style={styles.pdfViewer}
-                    /> */}
+                style={[styles.pdfContainer, { transform: [{ translateX }], opacity }]}>
+                <Pdf
+                  source={{ uri: uploadedUrl, cache: true }}  // Use uploaded URL for the PDF
+                  style={styles.pdfViewer}
+                  onLoadComplete={(numberOfPages, filePath) => {
+                    console.log(`Number of pages: ${numberOfPages}`);
+                  }}
+                  onPageChanged={(page, numberOfPages) => {
+                    console.log(`Current page: ${page}`);
+                  }}
+                  onError={(error) => {
+                    console.log(error);
+                  }}
+                  onPressLink={(uri) => {
+                    console.log(`Link pressed: ${uri}`);
+                  }}
+                />
+                <Text style={styles.imageText}>Uploaded PDF</Text>
               </Animated.View>
             ) : isImage(uploadedUrl) ? (
               <Animated.View
-                style={[styles.imageContainer, { transform: [{ translateX }] }]}>
+                style={[styles.imageContainer, { transform: [{ translateX }], opacity }]}>
                 <Image
                   source={{ uri: uploadedUrl }}
                   style={styles.uploadedImage}
@@ -85,8 +115,11 @@ export default function Calendar() {
 
 const styles = StyleSheet.create({
   container: { flex: 1, backgroundColor: '#fff' },
-  content: { padding: 20, alignItems: 'center', justifyContent: 'center' },
-  title: { fontSize: 24, fontWeight: '700', marginBottom: 20 },
+  content: {
+    padding: 20,
+    alignItems: 'center',
+    flex: 1,
+  },
   imageContainer: {
     alignItems: 'center',
     justifyContent: 'center',
@@ -121,6 +154,11 @@ const styles = StyleSheet.create({
     marginTop: 20,
     width: '100%',
     maxWidth: 350,
+    borderWidth: 1,
+    borderColor: '#ddd',
+    borderRadius: 10,
+    padding: 10,
+    backgroundColor: '#f0f0f0',
   },
   pdfViewer: {
     width: '100%',
@@ -128,8 +166,8 @@ const styles = StyleSheet.create({
     borderRadius: 10,
   },
   hamburger: {
-    flexDirection: "row",
-    alignItems: "center",
+    flexDirection: 'row',
+    alignItems: 'center',
     gap: 10,
   },
   header: {

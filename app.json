@@ -4,7 +4,7 @@
     "slug": "medical-app",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/images/icon.png",
+    "icon": "./assets/images/Loader.png",
     "scheme": "medicalapp",
     "userInterfaceStyle": "automatic",
     "newArchEnabled": true,
@@ -14,9 +14,10 @@
     },
     "android": {
       "adaptiveIcon": {
-        "foregroundImage": "./assets/images/adaptive-icon.png",
-        "backgroundColor": "#ffffff"
+        "foregroundImage": "./assets/images/Loader.png",
+        "backgroundColor": "#000000"
       },
+      "softwareKeyboardLayoutMode":"pan",
       "edgeToEdgeEnabled": true,
       "package": "com.ankit.formedics.medicalapp",
       "googleServicesFile": "./google-services.json"
@@ -37,10 +38,25 @@
           }
         }
       ],
-      "@react-native-firebase/app"
+      "@react-native-firebase/app",
+      [
+        "expo-build-properties",
+        {
+          "android": {
+            "windowSoftInputMode": "adjustPan"
+          }
+        }
+      ],
+      "expo-build-properties"
     ],
     "experiments": {
       "typedRoutes": true
+    },
+    "extra": {
+      "router": {},
+      "eas": {
+        "projectId": "dd18c4e2-9b0d-49db-8199-170580b90c85"
+      }
     }
   }
 }

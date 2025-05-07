@@ -6,14 +6,13 @@ import React, { useEffect, useRef } from 'react';
 import {
   Animated,
   Image,
-  SafeAreaView,
   ScrollView,
-  StatusBar,
   StyleSheet,
   Text,
   TouchableOpacity,
-  View,
+  View
 } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 const Home = () => {
   const uploadAnim = useRef(new Animated.Value(300)).current;
@@ -63,7 +62,6 @@ const Home = () => {
 
   return (
     <SafeAreaView style={styles.container}>
-      <StatusBar backgroundColor="#fff" barStyle="dark-content" />
       <ScrollView contentContainerStyle={styles.scrollView}>
         <View style={styles.header}>
           <View style={styles.hamburger}>
@@ -125,10 +123,11 @@ const Home = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#f5f5f5',
+    backgroundColor:"#fff"
+  
   },
   scrollView: {
-    paddingBottom: 80,
+    paddingBottom: 50,
   },
   hamburger: {
     flexDirection: "row",
